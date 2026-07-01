@@ -1,99 +1,274 @@
-<p align="center">
-  <a href="http://nestjs.com/" target="blank"><img src="https://nestjs.com/img/logo-small.svg" width="120" alt="Nest Logo" /></a>
-</p>
+# Quiz App Backend API
 
-[circleci-image]: https://img.shields.io/circleci/build/github/nestjs/nest/master?token=abc123def456
-[circleci-url]: https://circleci.com/gh/nestjs/nest
+A robust, progressive, and scalable server-side application for a Quiz & Lesson management platform. Built with **NestJS**, **Prisma ORM**, and **PostgreSQL**, this backend manages role-based access for Teachers and Students, email-based activation, interactive quizzes, automated grading, and PowerPoint-supported lessons.
 
-  <p align="center">A progressive <a href="http://nodejs.org" target="_blank">Node.js</a> framework for building efficient and scalable server-side applications.</p>
-    <p align="center">
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/v/@nestjs/core.svg" alt="NPM Version" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/l/@nestjs/core.svg" alt="Package License" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/dm/@nestjs/common.svg" alt="NPM Downloads" /></a>
-<a href="https://circleci.com/gh/nestjs/nest" target="_blank"><img src="https://img.shields.io/circleci/build/github/nestjs/nest/master" alt="CircleCI" /></a>
-<a href="https://coveralls.io/github/nestjs/nest?branch=master" target="_blank"><img src="https://coveralls.io/repos/github/nestjs/nest/badge.svg?branch=master#9" alt="Coverage" /></a>
-<a href="https://discord.gg/G7Qnnhy" target="_blank"><img src="https://img.shields.io/badge/discord-online-brightgreen.svg" alt="Discord"/></a>
-<a href="https://opencollective.com/nest#backer" target="_blank"><img src="https://opencollective.com/nest/backers/badge.svg" alt="Backers on Open Collective" /></a>
-<a href="https://opencollective.com/nest#sponsor" target="_blank"><img src="https://opencollective.com/nest/sponsors/badge.svg" alt="Sponsors on Open Collective" /></a>
-  <a href="https://paypal.me/kamilmysliwiec" target="_blank"><img src="https://img.shields.io/badge/Donate-PayPal-ff3f59.svg" alt="Donate us"/></a>
-    <a href="https://opencollective.com/nest#sponsor"  target="_blank"><img src="https://img.shields.io/badge/Support%20us-Open%20Collective-41B883.svg" alt="Support us"></a>
-  <a href="https://twitter.com/nestframework" target="_blank"><img src="https://img.shields.io/twitter/follow/nestframework.svg?style=social&label=Follow" alt="Follow us on Twitter"></a>
-</p>
-  <!--[![Backers on Open Collective](https://opencollective.com/nest/backers/badge.svg)](https://opencollective.com/nest#backer)
-  [![Sponsors on Open Collective](https://opencollective.com/nest/sponsors/badge.svg)](https://opencollective.com/nest#sponsor)-->
+---
 
-## Description
+## 🚀 Key Features
 
-[Nest](https://github.com/nestjs/nest) framework TypeScript starter repository.
+*   **Role-Based Access Control**: Separate privileges for `TEACHER` and `STUDENT` roles.
+*   **Authentication & Verification**: Sign-in, registration, token verification, and verification emails powered by SMTP.
+*   **Interactive Quizzes**:
+    *   Teachers can CRUD quizzes and manage their associated questions/options.
+    *   Students can view quizzes, take interactive attempts, submit answers, and receive automated real-time scores.
+*   **PowerPoint-Supported Lessons**:
+    *   Attach YouTube video links and slide presentations to quizzes.
+    *   Allows uploading PowerPoint files (`.ppt`, `.pptx`), stored and dynamically served.
+*   **Database Cascade Operations**: Automatically cleans up questions and options when their associated quizzes are deleted.
 
-## Project setup
+---
 
+## 🛠 Tech Stack
+
+*   **Framework**: [NestJS](https://nestjs.com/) (TypeScript)
+*   **Database ORM**: [Prisma Client](https://www.prisma.io/)
+*   **Database**: PostgreSQL
+*   **File Uploads**: Multer
+*   **Mail Delivery**: `@nestjs-modules/mailer` (using SMTP / NodeMailer)
+*   **Validation**: `class-validator` & `class-transformer`
+*   **Package Manager**: Yarn
+
+---
+
+## 📋 Prerequisites
+
+Before running the application, make sure you have:
+*   [Node.js](https://nodejs.org/) (version 18 or above recommended)
+*   [Yarn](https://yarnpkg.com/)
+*   A running [PostgreSQL](https://www.postgresql.org/) database
+*   SMTP Server Credentials (e.g., Google App Password for Gmail integration)
+
+---
+
+## ⚙️ Configuration & Installation
+
+### 1. Clone & Install Dependencies
+First, install the package dependencies using Yarn:
 ```bash
-$ yarn install
+yarn install
 ```
 
-## Compile and run the project
+### 2. Configure Environment Variables
+Create a `.env` file in the root directory (based on `.env.example` or the template below) and specify your local setup properties:
+```env
+PORT=7878
+DATABASE_URL="postgresql://<db_username>:<db_password>@<db_host>:<db_port>/<db_name>?schema=public"
 
-```bash
-# development
-$ yarn run start
-
-# watch mode
-$ yarn run start:dev
-
-# production mode
-$ yarn run start:prod
+SMTP_API_SERVER=smtp.gmail.com
+SMTP_API_USERNAME=your_gmail_address@gmail.com
+SMTP_API_PASSWORD=your_gmail_app_password
+SMTP_API_PORT=587
 ```
 
-## Run tests
-
+### 3. Setup the Database
+Sync your PostgreSQL database schema with your Prisma models and generate the Prisma Client:
 ```bash
-# unit tests
-$ yarn run test
+# Push the schema changes directly to the database
+npx prisma db push
 
-# e2e tests
-$ yarn run test:e2e
-
-# test coverage
-$ yarn run test:cov
+# Generate the prisma client
+npx prisma generate
 ```
 
-## Deployment
+---
 
-When you're ready to deploy your NestJS application to production, there are some key steps you can take to ensure it runs as efficiently as possible. Check out the [deployment documentation](https://docs.nestjs.com/deployment) for more information.
-
-If you are looking for a cloud-based platform to deploy your NestJS application, check out [Mau](https://mau.nestjs.com), our official platform for deploying NestJS applications on AWS. Mau makes deployment straightforward and fast, requiring just a few simple steps:
+## 🏃 Run the Application
 
 ```bash
-$ yarn install -g mau
-$ mau deploy
+# Start development mode (with hot-reloading)
+yarn start:dev
+
+# Start debug mode
+yarn start:debug
+
+# Build & run in production
+yarn build
+yarn start:prod
 ```
 
-With Mau, you can deploy your application in just a few clicks, allowing you to focus on building features rather than managing infrastructure.
+The API server will listen on the port specified in your `.env` file (defaults to `7878` or `3000`).
 
-## Resources
+---
 
-Check out a few resources that may come in handy when working with NestJS:
+## 📂 Database Schema Overview
 
-- Visit the [NestJS Documentation](https://docs.nestjs.com) to learn more about the framework.
-- For questions and support, please visit our [Discord channel](https://discord.gg/G7Qnnhy).
-- To dive deeper and get more hands-on experience, check out our official video [courses](https://courses.nestjs.com/).
-- Deploy your application to AWS with the help of [NestJS Mau](https://mau.nestjs.com) in just a few clicks.
-- Visualize your application graph and interact with the NestJS application in real-time using [NestJS Devtools](https://devtools.nestjs.com).
-- Need help with your project (part-time to full-time)? Check out our official [enterprise support](https://enterprise.nestjs.com).
-- To stay in the loop and get updates, follow us on [X](https://x.com/nestframework) and [LinkedIn](https://linkedin.com/company/nestjs).
-- Looking for a job, or have a job to offer? Check out our official [Jobs board](https://jobs.nestjs.com).
+The database models are configured in [schema.prisma](file:///Users/defiveninth/Documents/quiz-app-back/prisma/schema.prisma):
 
-## Support
+```mermaid
+erDiagram
+    User ||--o{ Quiz : "creates (as Teacher)"
+    User ||--o{ Attempt : "takes (as Student)"
+    Quiz ||--o{ Question : "contains"
+    Quiz ||--o| Lesson : "has"
+    Quiz ||--o{ Attempt : "has"
+    Question ||--o{ Option : "has"
+    Attempt ||--o{ AttemptOption : "records"
+    Question ||--o{ AttemptOption : "references"
+    Option ||--o{ AttemptOption : "references"
+```
 
-Nest is an MIT-licensed open source project. It can grow thanks to the sponsors and support by the amazing backers. If you'd like to join them, please [read more here](https://docs.nestjs.com/support).
+*   **User**: Represents teachers and students. Roles: `TEACHER`, `STUDENT`.
+*   **Quiz**: Core quiz metadata (Title, Description). Created by teachers.
+*   **Question**: Individual quiz questions.
+*   **Option**: Multiple-choice answers for questions, labeled with `isCorrect` flags.
+*   **Lesson**: Optional learning material tied to a Quiz containing a description, YouTube link, and PowerPoint files.
+*   **Attempt**: Tracking record of a Student taking a Quiz, storing their final calculated `score`.
+*   **AttemptOption**: Map of questions, selected options, and attempts.
 
-## Stay in touch
+---
 
-- Author - [Kamil Myśliwiec](https://twitter.com/kammysliwiec)
-- Website - [https://nestjs.com](https://nestjs.com/)
-- Twitter - [@nestframework](https://twitter.com/nestframework)
+## 📡 API Endpoints Reference
 
-## License
+> [!NOTE]
+> For simplicity and client integration convenience, this API passes the authentication `accessToken` directly in the HTTP Request **Body** rather than utilizing header guards.
 
-Nest is [MIT licensed](https://github.com/nestjs/nest/blob/master/LICENSE).
+### 🔑 Authentication (`/auth`)
+
+#### Create Account
+*   **POST** `/auth/create-account`
+*   *Payload*: `{ "email": string, "role": "TEACHER" | "STUDENT" }`
+*   *Action*: Creates a user with a validation token and sends an activation email.
+
+#### Verify Account / Password Activation
+*   **POST** `/auth/verify-account`
+*   *Payload*: `{ "verifyToken": string, "newPassword": string, "firstName": string, "surname": string }`
+*   *Action*: Activates the user's password and profile name, updating status.
+
+#### Verify Token
+*   **POST** `/auth/verify-token`
+*   *Payload*: `{ "verifyToken": string }`
+*   *Action*: Checks validity of verification/activation tokens.
+
+#### Sign In
+*   **POST** `/auth/sign-in`
+*   *Payload*: `{ "email": string, "password": string }`
+*   *Response*: Returns the authentication `accessToken` (token) and user details.
+
+#### Get Info
+*   **POST** `/auth/get-info`
+*   *Payload*: `{ "accessToken": string }`
+*   *Response*: Current profile details of the user.
+
+---
+
+### 📝 Quizzes (`/quiz`)
+
+#### Get All Quizzes
+*   **GET** `/quiz`
+*   *Response*: List of all quizzes, including their questions and lessons.
+
+#### Get Single Quiz
+*   **GET** `/quiz/:id`
+*   *Response*: Single quiz details filtered by ID.
+
+#### Create Quiz
+*   **POST** `/quiz/create`
+*   *Payload*: `{ "accessToken": string, "title": string, "description": string }`
+*   *Restriction*: Accessible by `TEACHER` accounts only.
+
+#### Update Quiz
+*   **PUT** `/quiz/:id`
+*   *Payload*: `{ "accessToken": string, "title": string, "description": string }`
+
+#### Delete Quiz
+*   **DELETE** `/quiz`
+*   *Payload*: `{ "accessToken": string, "quizId": string }`
+
+#### Submit Quiz Attempt
+*   **POST** `/quiz/submit`
+*   *Payload*:
+    ```json
+    {
+      "attemptId": "string",
+      "answers": [
+        { "questionId": "string", "optionId": "string" }
+      ]
+    }
+    ```
+*   *Response*: Calculated score. Writes attempt records to the database.
+
+#### Get Single Quiz Results
+*   **POST** `/quiz/results`
+*   *Payload*: `{ "quizId": string }`
+
+#### Get My Quizzes
+*   **POST** `/quiz/mine`
+*   *Payload*: `{ "accessToken": string }`
+
+---
+
+### ❓ Questions (`/questions`)
+
+#### Create Question
+*   **POST** `/questions`
+*   *Payload*:
+    ```json
+    {
+      "text": "Question Text",
+      "quizId": "quiz-cuid-id",
+      "options": [
+        { "text": "Correct Option", "isCorrect": true },
+        { "text": "Wrong Option", "isCorrect": false }
+      ]
+    }
+    ```
+
+#### Get All Questions
+*   **GET** `/questions`
+
+#### Get Question by ID
+*   **GET** `/questions/:id`
+
+#### Update Question
+*   **PUT** `/questions/:id`
+*   *Payload*:
+    ```json
+    {
+      "text": "Updated Question Text",
+      "options": [
+        { "id": "optional-existing-option-id", "text": "Option Text", "isCorrect": true }
+      ]
+    }
+    ```
+
+#### Delete Question
+*   **DELETE** `/questions/:id`
+
+---
+
+### 📖 Lessons (`/lesson`)
+
+#### Edit Lesson Content
+*   **POST** `/lesson/edit`
+*   *Payload*: `{ "id": string, "title": string, "description": string, "ytVideoUrl": string }`
+
+#### Add Presentation File to Lesson
+*   **POST** `/lesson/add-file`
+*   *Form-Data Body*:
+    *   `lessonId`: `string`
+    *   `file`: (Multipart PowerPoint file, allowed extensions: `.ppt`, `.pptx`)
+
+#### Get Lesson File Paths
+*   **GET** `/lesson/:lessonId/files`
+*   *Response*: Array of file access endpoints for the specified lesson.
+
+#### Get Specific Lesson File
+*   **GET** `/lesson/:lessonId/files/:filename`
+*   *Response*: Returns download path metadata.
+
+---
+
+### 📈 Attempts (`/attempt`)
+
+#### Get Attempt Details
+*   **GET** `/attempt/:id`
+
+#### Create Attempt
+*   **POST** `/attempt/create`
+*   *Payload*: `{ "accessToken": string, "quizId": string }`
+*   *Restriction*: Accessible by `STUDENT` accounts only.
+
+#### Get My Attempts
+*   **POST** `/attempt/get-mine`
+*   *Payload*: `{ "accessToken": string }`
+*   *Restriction*: Accessible by `STUDENT` accounts only.
