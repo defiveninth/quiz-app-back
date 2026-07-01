@@ -1,3 +1,5 @@
+🔗 **Link:** `Local Deployment` | 💻 **GitHub:** [github.com/defiveninth/quiz-app-front](https://github.com/defiveninth/quiz-app-back)
+
 # Quiz App Backend API
 
 A robust, progressive, and scalable server-side application for a Quiz & Lesson management platform. Built with **NestJS**, **Prisma ORM**, and **PostgreSQL**, this backend manages role-based access for Teachers and Students, email-based activation, interactive quizzes, automated grading, and PowerPoint-supported lessons.
